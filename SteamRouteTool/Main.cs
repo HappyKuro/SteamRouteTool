@@ -20,23 +20,23 @@ namespace SteamRouteTool
         int rowCount = 0;
         bool columnChecked = false;
         bool firstLoad = true;
-        string networkconfigURL = @"api.steampowered.com/ISteamApps/GetSDRConfig/v1?appid=730";
+        string networkconfigURL = @"api.steampowered.com/ISteamApps/GetSDRConfig/v1?appid=440";
 
         public Main()
         {
             InitializeComponent();
-            ClearCSGORoutingToolRules();
+            ClearTF2RoutingToolRules();
             Thread populateRoutesThread = new Thread(new ThreadStart(PopulateRoutes));
             populateRoutesThread.Start();
         }
 
-        private void ClearCSGORoutingToolRules()
+        private void ClearTF2RoutingToolRules()
         {
             Type tNetFwPolicy2 = Type.GetTypeFromProgID("HNetCfg.FwPolicy2");
             INetFwPolicy2 fwPolicy2 = (INetFwPolicy2)Activator.CreateInstance(tNetFwPolicy2);
             foreach (INetFwRule rule in fwPolicy2.Rules)
             {
-                if (rule.Name.Contains("CSGORoutingTool-")) { fwPolicy2.Rules.Remove(rule.Name); }
+                if (rule.Name.Contains("TF2RoutingTool-")) { fwPolicy2.Rules.Remove(rule.Name); }
             }
         }
 
