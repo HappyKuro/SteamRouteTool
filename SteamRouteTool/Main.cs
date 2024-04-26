@@ -20,7 +20,7 @@ namespace SteamRouteTool
         int rowCount = 0;
         bool columnChecked = false;
         bool firstLoad = true;
-        string networkconfigURL = @"api.steampowered.com/ISteamApps/GetSDRConfig/v1?appid=440";
+        string networkconfigURL = @"https://api.steampowered.com/ISteamApps/GetSDRConfig/v1?appid=440";
 
         public Main()
         {
@@ -214,11 +214,11 @@ namespace SteamRouteTool
                                 if (addr.Contains(route.ranges.Keys.ToArray()[i]))
                                 {
                                     routeDataGrid.Rows[route.row_index[i]].Cells[2].Value = true;
-                                    if (i != 0) { blockedCount++;  }
+                                    if (i != 0) { blockedCount++; }
                                     if (i == 0) { firstBlocked = true; }
                                 }
                             }
-                            if (blockedCount == route.ranges.Count-1 && firstBlocked)
+                            if (blockedCount == route.ranges.Count - 1 && firstBlocked)
                             {
                                 extended = false;
                             }
@@ -335,7 +335,7 @@ namespace SteamRouteTool
             }
 
             if (e.ColumnIndex == 2 && e.RowIndex == -1)
-           { 
+            {
                 if (!columnChecked)
                 {
                     for (int i = 0; i < routeDataGrid.Rows.Count; i++)
@@ -381,7 +381,7 @@ namespace SteamRouteTool
                 {
                     if (index == 0 && route.all_check)
                     {
-                        foreach (KeyValuePair<string,string> range in route.ranges)
+                        foreach (KeyValuePair<string, string> range in route.ranges)
                         {
                             remoteAddresses += range.Key + ",";
                         }
@@ -399,7 +399,7 @@ namespace SteamRouteTool
                 remoteAddresses = remoteAddresses.Substring(0, remoteAddresses.Length - 1);
                 fwRule.RemoteAddresses = remoteAddresses;
                 fwRule.Protocol = 17;
-                fwRule.RemotePorts = "27015-27068";
+                fwRule.RemotePorts = "27015-27060";
                 fwRule.Name = "SteamRouteTool-" + route.name;
                 INetFwPolicy2 firewallPolicy = (INetFwPolicy2)Activator.CreateInstance(Type.GetTypeFromProgID("HNetCfg.FwPolicy2"));
                 firewallPolicy.Rules.Add(fwRule);
@@ -408,7 +408,7 @@ namespace SteamRouteTool
 
         private void Btn_About_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Version: " + ProductVersion + Environment.NewLine + "Steam Route Tool is created by Froody.", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Version: " + ProductVersion + Environment.NewLine + "Steam Route Tool is created by Froody. And changed from csgo to TF2 by MasterCatPL.", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }
