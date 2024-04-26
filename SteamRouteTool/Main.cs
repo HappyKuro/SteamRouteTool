@@ -399,7 +399,7 @@ namespace SteamRouteTool
                 remoteAddresses = remoteAddresses.Substring(0, remoteAddresses.Length - 1);
                 fwRule.RemoteAddresses = remoteAddresses;
                 fwRule.Protocol = 17;
-                fwRule.RemotePorts = "27015-27060";
+                fwRule.RemotePorts = "27015-27068";
                 fwRule.Name = "SteamRouteTool-" + route.name;
                 INetFwPolicy2 firewallPolicy = (INetFwPolicy2)Activator.CreateInstance(Type.GetTypeFromProgID("HNetCfg.FwPolicy2"));
                 firewallPolicy.Rules.Add(fwRule);
