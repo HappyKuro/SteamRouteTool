@@ -1,10 +1,10 @@
 # SteamRouteTool
-A tool for blocking routes in Steam games that use network_config.json
+A tool for blocking routes in Steam games that use GetSDRConfig
 
 Note: This will automatically clear any TF2RoutingTool firewall rules upon launch (to save the need to clear those rules in that application).
 
 ## Supports:
-Blocking specific routes for games that use Valve's network_config.json (Team Fortress 2 ONLY!).
+Blocking specific routes for games that use Valve's GetSDRConfig (Team Fortress 2 ONLY!).
 
 ## How to use
 * Click the checkbox of the route(s) you'd like to block.
