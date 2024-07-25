@@ -20,23 +20,23 @@ namespace SteamRouteTool
         int rowCount = 0;
         bool columnChecked = false;
         bool firstLoad = true;
-        string networkconfigURL = @"https://api.steampowered.com/ISteamApps/GetSDRConfig/v1?appid=440";
+        string networkconfigURL = @"https://api.steampowered.com/ISteamApps/GetSDRConfig/v1?appid=730";
 
         public Main()
         {
             InitializeComponent();
-            ClearTF2RoutingToolRules();
+            ClearCS2RoutingToolRules();
             Thread populateRoutesThread = new Thread(new ThreadStart(PopulateRoutes));
             populateRoutesThread.Start();
         }
 
-        private void ClearTF2RoutingToolRules()
+        private void ClearCS2RoutingToolRules()
         {
             Type tNetFwPolicy2 = Type.GetTypeFromProgID("HNetCfg.FwPolicy2");
             INetFwPolicy2 fwPolicy2 = (INetFwPolicy2)Activator.CreateInstance(tNetFwPolicy2);
             foreach (INetFwRule rule in fwPolicy2.Rules)
             {
-                if (rule.Name.Contains("TF2RoutingTool-")) { fwPolicy2.Rules.Remove(rule.Name); }
+                if (rule.Name.Contains("CS2RoutingTool-")) { fwPolicy2.Rules.Remove(rule.Name); }
             }
         }
 
@@ -408,7 +408,7 @@ namespace SteamRouteTool
 
         private void Btn_About_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Version: " + ProductVersion + Environment.NewLine + "Steam Route Tool is created by Froody. And changed from csgo to TF2 by MasterCatPL.", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Version: " + ProductVersion + Environment.NewLine + "Steam Route Tool is created by Froody.", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }
