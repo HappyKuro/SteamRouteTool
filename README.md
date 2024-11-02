@@ -4,7 +4,7 @@ A tool for blocking routes in Steam games that use GetSDRConfig
 Note: This will automatically clear any CS2RoutingTool firewall rules upon launch (to save the need to clear those rules in that application).
 
 ## Supports:
-Blocking specific routes for games that use Valve's GetSDRConfig (Counter Strike 2 ONLY!).
+Blocking specific routes for games that use Valve's GetSDRConfig (Counter Strike 2).
 
 ## How to use
 * Click the checkbox of the route(s) you'd like to block.
