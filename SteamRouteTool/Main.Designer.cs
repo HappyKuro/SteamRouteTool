@@ -92,7 +92,7 @@
             this.btn_PingRoutes.Name = "btn_PingRoutes";
             this.btn_PingRoutes.Size = new System.Drawing.Size(75, 23);
             this.btn_PingRoutes.TabIndex = 1;
-            this.btn_PingRoutes.Text = "Ping Routes";
+            this.btn_PingRoutes.Text = "Ping";
             this.btn_PingRoutes.UseVisualStyleBackColor = true;
             this.btn_PingRoutes.Click += new System.EventHandler(this.Btn_PingRoutes_Click);
             // 
@@ -102,18 +102,18 @@
             this.btn_ClearRules.Name = "btn_ClearRules";
             this.btn_ClearRules.Size = new System.Drawing.Size(77, 23);
             this.btn_ClearRules.TabIndex = 2;
-            this.btn_ClearRules.Text = "Clear Rules";
+            this.btn_ClearRules.Text = "Clear";
             this.btn_ClearRules.UseVisualStyleBackColor = true;
             this.btn_ClearRules.Click += new System.EventHandler(this.Btn_ClearRules_Click);
             // 
             // lb_GettingRoutes
             // 
             this.lb_GettingRoutes.AutoSize = true;
-            this.lb_GettingRoutes.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lb_GettingRoutes.ForeColor = System.Drawing.Color.Red;
-            this.lb_GettingRoutes.Location = new System.Drawing.Point(98, 246);
+            this.lb_GettingRoutes.Font = new System.Drawing.Font("TF2 Build", 8F);
+            this.lb_GettingRoutes.ForeColor = System.Drawing.Color.Black;
+            this.lb_GettingRoutes.Location = new System.Drawing.Point(83, 247);
             this.lb_GettingRoutes.Name = "lb_GettingRoutes";
-            this.lb_GettingRoutes.Size = new System.Drawing.Size(82, 13);
+            this.lb_GettingRoutes.Size = new System.Drawing.Size(112, 12);
             this.lb_GettingRoutes.TabIndex = 3;
             this.lb_GettingRoutes.Text = "Getting routes...";
             // 

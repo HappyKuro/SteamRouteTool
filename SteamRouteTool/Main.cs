@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Text;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -20,23 +21,23 @@ namespace SteamRouteTool
         int rowCount = 0;
         bool columnChecked = false;
         bool firstLoad = true;
-        string networkconfigURL = @"https://api.steampowered.com/ISteamApps/GetSDRConfig/v1?appid=730";
+        string networkconfigURL = @"https://api.steampowered.com/ISteamApps/GetSDRConfig/v1?appid=440";
 
         public Main()
         {
             InitializeComponent();
-            ClearCS2RoutingToolRules();
+            ClearTF2RoutingToolRules();
             Thread populateRoutesThread = new Thread(new ThreadStart(PopulateRoutes));
             populateRoutesThread.Start();
         }
 
-        private void ClearCS2RoutingToolRules()
+        private void ClearTF2RoutingToolRules()
         {
             Type tNetFwPolicy2 = Type.GetTypeFromProgID("HNetCfg.FwPolicy2");
             INetFwPolicy2 fwPolicy2 = (INetFwPolicy2)Activator.CreateInstance(tNetFwPolicy2);
             foreach (INetFwRule rule in fwPolicy2.Rules)
             {
-                if (rule.Name.Contains("CS2RoutingTool-")) { fwPolicy2.Rules.Remove(rule.Name); }
+                if (rule.Name.Contains("TF2RoutingTool-")) { fwPolicy2.Rules.Remove(rule.Name); }
             }
         }
 
@@ -68,6 +69,9 @@ namespace SteamRouteTool
                     routes.Add(route);
                 }
             }
+
+            // this code is useless idk why i added it...
+            MessageBox.Show("Welcome to SteamRouteTool!" +Environment.NewLine + "Last changed: 15/11/2024" + Environment.NewLine + "Improved firewallpolicy, fwPolicy2." + Environment.NewLine + "Added MessageBox welcome." + Environment.NewLine + "changed networkconfigURL from 730 to 440.", "Welcome!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             btn_PingRoutes.BeginInvoke(new MethodInvoker(() =>
             {
@@ -130,7 +134,7 @@ namespace SteamRouteTool
                 {
                     routeDataGrid.Rows[route.row_index[i]].Cells[1].Style.BackColor = Color.Black;
                     string responseTime = PingHost(route.ranges.Keys.ToArray()[i]);
-                    if (responseTime != "-1")
+                    if (responseTime != "UNK")
                     {
                         if (Convert.ToInt32(responseTime) <= 50) { routeDataGrid.Rows[route.row_index[i]].Cells[1].Style.ForeColor = Color.Green; }
                         if (Convert.ToInt32(responseTime) > 50 && Convert.ToInt32(responseTime) <= 100) { routeDataGrid.Rows[route.row_index[i]].Cells[1].Style.ForeColor = Color.Orange; }
@@ -158,9 +162,9 @@ namespace SteamRouteTool
                     {
                         routeDataGrid.Rows[route.row_index[i]].Cells[1].Style.BackColor = Color.Black;
                         string responseTime = PingHost(route.ranges.Keys.ToArray()[i]);
-                        if (responseTime != "-1")
+                        if (responseTime != "UNK")
                         {
-                            if (Convert.ToInt32(responseTime) <= 50) { routeDataGrid.Rows[route.row_index[i]].Cells[1].Style.ForeColor = Color.Green; }
+                            if (Convert.ToInt32(responseTime) <= 100) { routeDataGrid.Rows[route.row_index[i]].Cells[1].Style.ForeColor = Color.Green; }
                             if (Convert.ToInt32(responseTime) > 50 && Convert.ToInt32(responseTime) <= 100) { routeDataGrid.Rows[route.row_index[i]].Cells[1].Style.ForeColor = Color.Orange; }
                             if (Convert.ToInt32(responseTime) > 100) { routeDataGrid.Rows[route.row_index[i]].Cells[1].Style.ForeColor = Color.Red; }
                         }
@@ -183,10 +187,10 @@ namespace SteamRouteTool
             {
                 Ping ping = new Ping();
                 PingReply pingreply = ping.Send(host);
-                if (pingreply.RoundtripTime == 0) { return "-1"; }
+                if (pingreply.RoundtripTime == 0) { return "UNK"; } // UNKOWN = Timeout
                 else { return pingreply.RoundtripTime.ToString(); }
             }
-            catch (Exception ex) { return "-1"; }
+            catch (Exception ex) { return "UNK"; }
         }
 
         private void GetCurrentBlocked()
@@ -198,7 +202,7 @@ namespace SteamRouteTool
             {
                 if (rule.Name.Contains("SteamRouteTool-"))
                 {
-                    string name = rule.Name.Split('-')[1];
+                    string name = rule.Name.Split('-')[2];
 
                     List<string> addr = new List<string>();
                     foreach (string tosplit in rule.RemoteAddresses.Split(',')) { addr.Add(tosplit.Split('/')[0]); }
@@ -297,9 +301,9 @@ namespace SteamRouteTool
                             routeDataGrid.Rows[e.RowIndex].Cells[1].Style.BackColor = Color.Black;
                             string responseTime = PingHost(currentRoute.ranges.Keys.ToArray()[i]);
 
-                            if (responseTime != "-1")
+                            if (responseTime != "UNK")
                             {
-                                if (Convert.ToInt32(responseTime) <= 50)
+                                if (Convert.ToInt32(responseTime) <= 100) // i don't know if i've fixed the problem.
                                 {
                                     routeDataGrid.Rows[e.RowIndex].Cells[1].Style.ForeColor = Color.Green;
                                 }
@@ -363,14 +367,13 @@ namespace SteamRouteTool
         {
             Type tNetFwPolicy2 = Type.GetTypeFromProgID("HNetCfg.FwPolicy2");
             INetFwPolicy2 fwPolicy2 = (INetFwPolicy2)Activator.CreateInstance(tNetFwPolicy2);
-            try { fwPolicy2.Rules.Remove("SteamRouteTool-" + route.name); }
+            try 
+            { 
+                fwPolicy2.Rules.Remove("SteamRouteTool-TCP-" + route.name);
+                fwPolicy2.Rules.Remove("SteamRouteTool-UDP-" + route.name);
+                fwPolicy2.Rules.Remove("SteamRouteTool-ICMP-" + route.name);
+            }
             catch { }
-
-            INetFwRule fwRule = (INetFwRule2)Activator.CreateInstance(Type.GetTypeFromProgID("HNetCfg.FWRule"));
-
-            fwRule.Enabled = true;
-            fwRule.Direction = NET_FW_RULE_DIRECTION_.NET_FW_RULE_DIR_OUT;
-            fwRule.Action = NET_FW_ACTION_.NET_FW_ACTION_BLOCK;
 
             string remoteAddresses = "";
 
@@ -397,18 +400,48 @@ namespace SteamRouteTool
             if (remoteAddresses != "")
             {
                 remoteAddresses = remoteAddresses.Substring(0, remoteAddresses.Length - 1);
-                fwRule.RemoteAddresses = remoteAddresses;
-                fwRule.Protocol = 17;
-                fwRule.RemotePorts = "27015-27068";
-                fwRule.Name = "SteamRouteTool-" + route.name;
+
+                // https://github.com/dfrood/SteamRouteTool/pull/16/commits/334850468572f6efbbdd63f7b21bc044bc2c3171
+
+                // UDP Rule
+                INetFwRule2 udpRule = (INetFwRule2)Activator.CreateInstance(Type.GetTypeFromProgID("HNetCfg.FWRule"));
+                udpRule.Enabled = true;
+                udpRule.Direction = NET_FW_RULE_DIRECTION_.NET_FW_RULE_DIR_OUT;
+                udpRule.Action = NET_FW_ACTION_.NET_FW_ACTION_BLOCK;
+                udpRule.RemoteAddresses = remoteAddresses;
+                udpRule.Protocol = 17;
+                udpRule.RemotePorts = "27015-27068";
+                udpRule.Name = "SteamRouteTool-UDP-" + route.name;
+
+                // TCP Rule
+                INetFwRule2 tcpRule = (INetFwRule2)Activator.CreateInstance(Type.GetTypeFromProgID("HNetCfg.FWRule"));
+                tcpRule.Enabled = true;
+                tcpRule.Direction = NET_FW_RULE_DIRECTION_.NET_FW_RULE_DIR_OUT;
+                tcpRule.Action = NET_FW_ACTION_.NET_FW_ACTION_BLOCK;
+                tcpRule.RemoteAddresses = remoteAddresses;
+                tcpRule.Protocol = 6;
+                tcpRule.RemotePorts = "27015-27068";
+                tcpRule.Name = "SteamRouteTool-TCP-" + route.name;
+
+                // ICMP Rule
+                INetFwRule2 icmpRule = (INetFwRule2)Activator.CreateInstance(Type.GetTypeFromProgID("HNetCfg.FWRule"));
+                icmpRule.Enabled = true;
+                icmpRule.Direction = NET_FW_RULE_DIRECTION_.NET_FW_RULE_DIR_OUT;
+                icmpRule.Action = NET_FW_ACTION_.NET_FW_ACTION_BLOCK;
+                icmpRule.RemoteAddresses = remoteAddresses;
+                icmpRule.Protocol = 1;
+                icmpRule.Name = "SteamRouteTool-ICMP-" + route.name;
+
                 INetFwPolicy2 firewallPolicy = (INetFwPolicy2)Activator.CreateInstance(Type.GetTypeFromProgID("HNetCfg.FwPolicy2"));
-                firewallPolicy.Rules.Add(fwRule);
+                firewallPolicy.Rules.Add(udpRule);
+                firewallPolicy.Rules.Add(tcpRule);
+                firewallPolicy.Rules.Add(icmpRule);
             }
         }
 
         private void Btn_About_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Version: " + ProductVersion + Environment.NewLine + "Steam Route Tool is created by Froody.", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Version: " + ProductVersion + Environment.NewLine + "SteamRouteTool is created by Froody.", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }
