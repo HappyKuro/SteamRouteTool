@@ -39,6 +39,8 @@ namespace SteamRouteTool
             {
                 if (rule.Name.Contains("TF2RoutingTool-")) { fwPolicy2.Rules.Remove(rule.Name); }
             }
+            // this code is useless idk why i added it...
+            MessageBox.Show("Welcome to SteamRouteTool!" + Environment.NewLine + "Last changed: 15/11/2024" + Environment.NewLine + "Improved firewallpolicy, fwPolicy2." + Environment.NewLine + "Added MessageBox welcome." + Environment.NewLine + "changed networkconfigURL from 730 to 440.", "Welcome!", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void PopulateRoutes()
@@ -69,9 +71,6 @@ namespace SteamRouteTool
                     routes.Add(route);
                 }
             }
-
-            // this code is useless idk why i added it...
-            MessageBox.Show("Welcome to SteamRouteTool!" +Environment.NewLine + "Last changed: 15/11/2024" + Environment.NewLine + "Improved firewallpolicy, fwPolicy2." + Environment.NewLine + "Added MessageBox welcome." + Environment.NewLine + "changed networkconfigURL from 730 to 440.", "Welcome!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             btn_PingRoutes.BeginInvoke(new MethodInvoker(() =>
             {
