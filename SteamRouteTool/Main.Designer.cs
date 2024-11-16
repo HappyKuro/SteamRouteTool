@@ -102,7 +102,7 @@
             this.btn_ClearRules.Name = "btn_ClearRules";
             this.btn_ClearRules.Size = new System.Drawing.Size(77, 23);
             this.btn_ClearRules.TabIndex = 2;
-            this.btn_ClearRules.Text = "Clear";
+            this.btn_ClearRules.Text = "Clear Rules";
             this.btn_ClearRules.UseVisualStyleBackColor = true;
             this.btn_ClearRules.Click += new System.EventHandler(this.Btn_ClearRules_Click);
             // 

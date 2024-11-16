@@ -186,7 +186,7 @@ namespace SteamRouteTool
             {
                 Ping ping = new Ping();
                 PingReply pingreply = ping.Send(host);
-                if (pingreply.RoundtripTime == 0) { return "UNK"; } // UNKOWN = Timeout
+                if (pingreply.RoundtripTime == 0) { return "UNK"; } // UNKOWN = Timeout or blocked
                 else { return pingreply.RoundtripTime.ToString(); }
             }
             catch (Exception ex) { return "UNK"; }
@@ -302,7 +302,7 @@ namespace SteamRouteTool
 
                             if (responseTime != "UNK")
                             {
-                                if (Convert.ToInt32(responseTime) <= 100) // i don't know if i've fixed the problem.
+                                if (Convert.ToInt32(responseTime) <= 75) // i don't know if i've fixed the problem.
                                 {
                                     routeDataGrid.Rows[e.RowIndex].Cells[1].Style.ForeColor = Color.Green;
                                 }
