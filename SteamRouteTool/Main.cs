@@ -133,7 +133,7 @@ namespace SteamRouteTool
                 {
                     routeDataGrid.Rows[route.row_index[i]].Cells[1].Style.BackColor = Color.Black;
                     string responseTime = PingHost(route.ranges.Keys.ToArray()[i]);
-                    if (responseTime != "UNK")
+                    if (responseTime != "-1")
                     {
                         if (Convert.ToInt32(responseTime) <= 50) { routeDataGrid.Rows[route.row_index[i]].Cells[1].Style.ForeColor = Color.Green; }
                         if (Convert.ToInt32(responseTime) > 50 && Convert.ToInt32(responseTime) <= 100) { routeDataGrid.Rows[route.row_index[i]].Cells[1].Style.ForeColor = Color.Orange; }
@@ -161,7 +161,7 @@ namespace SteamRouteTool
                     {
                         routeDataGrid.Rows[route.row_index[i]].Cells[1].Style.BackColor = Color.Black;
                         string responseTime = PingHost(route.ranges.Keys.ToArray()[i]);
-                        if (responseTime != "UNK")
+                        if (responseTime != "-1")
                         {
                             if (Convert.ToInt32(responseTime) <= 100) { routeDataGrid.Rows[route.row_index[i]].Cells[1].Style.ForeColor = Color.Green; }
                             if (Convert.ToInt32(responseTime) > 50 && Convert.ToInt32(responseTime) <= 100) { routeDataGrid.Rows[route.row_index[i]].Cells[1].Style.ForeColor = Color.Orange; }
@@ -186,10 +186,10 @@ namespace SteamRouteTool
             {
                 Ping ping = new Ping();
                 PingReply pingreply = ping.Send(host);
-                if (pingreply.RoundtripTime == 0) { return "UNK"; } // UNKOWN = Timeout
+                if (pingreply.RoundtripTime == 0) { return "-1"; }
                 else { return pingreply.RoundtripTime.ToString(); }
             }
-            catch (Exception ex) { return "UNK"; }
+            catch (Exception ex) { return "-1"; }
         }
 
         private void GetCurrentBlocked()
@@ -300,9 +300,9 @@ namespace SteamRouteTool
                             routeDataGrid.Rows[e.RowIndex].Cells[1].Style.BackColor = Color.Black;
                             string responseTime = PingHost(currentRoute.ranges.Keys.ToArray()[i]);
 
-                            if (responseTime != "UNK")
+                            if (responseTime != "-1")
                             {
-                                if (Convert.ToInt32(responseTime) <= 100) // i don't know if i've fixed the problem.
+                                if (Convert.ToInt32(responseTime) <= 75) // i don't know if i've fixed the problem.
                                 {
                                     routeDataGrid.Rows[e.RowIndex].Cells[1].Style.ForeColor = Color.Green;
                                 }
