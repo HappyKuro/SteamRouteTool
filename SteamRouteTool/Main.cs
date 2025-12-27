@@ -464,7 +464,6 @@ namespace SteamRouteTool
                 });
             }
 
-            // Klik checkbox pojedynczego wiersza -> ustaw regułę
             if (e.ColumnIndex == 2 && e.RowIndex != -1)
             {
                 var currentRoute = routes.First(x => x.row_index.Contains(e.RowIndex));
@@ -472,7 +471,6 @@ namespace SteamRouteTool
                 Task.Run(() => SetRule(currentRoute));
             }
 
-            // Klik nagłówka kolumny checkbox -> zaznacz/odznacz wszystkie
             if (e.ColumnIndex == 2 && e.RowIndex == -1)
             {
                 columnChecked = !columnChecked;
