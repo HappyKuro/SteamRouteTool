@@ -409,7 +409,7 @@ namespace SteamRouteTool
                 udpRule.Action = NET_FW_ACTION_.NET_FW_ACTION_BLOCK;
                 udpRule.RemoteAddresses = remoteAddresses;
                 udpRule.Protocol = 17;
-                udpRule.RemotePorts = "27015-27068";
+                udpRule.RemotePorts = "27015-27202";
                 udpRule.Name = "SteamRouteTool-UDP-" + route.name;
 
                 // TCP Rule
@@ -419,7 +419,7 @@ namespace SteamRouteTool
                 tcpRule.Action = NET_FW_ACTION_.NET_FW_ACTION_BLOCK;
                 tcpRule.RemoteAddresses = remoteAddresses;
                 tcpRule.Protocol = 6;
-                tcpRule.RemotePorts = "27015-27068";
+                tcpRule.RemotePorts = "27015-27202";
                 tcpRule.Name = "SteamRouteTool-TCP-" + route.name;
 
                 // ICMP Rule
