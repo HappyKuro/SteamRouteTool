@@ -68,10 +68,8 @@ namespace SteamRouteTool
             {
                 MessageBox.Show(
                     "Welcome to SteamRouteTool!" + Environment.NewLine +
-                    "Last changed: 15/11/2024" + Environment.NewLine +
-                    "Improved firewallpolicy, fwPolicy2." + Environment.NewLine +
-                    "Added MessageBox welcome." + Environment.NewLine +
-                    "changed networkconfigURL from 730 to 440.",
+                    "Last changed: 28/12/2025" + Environment.NewLine +
+                    "Improved Everything.",
                     "Welcome!",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
@@ -213,7 +211,7 @@ namespace SteamRouteTool
                     string responseTime = PingHost(route.ranges.Keys.ElementAt(i));
                     SafeInvoke(() =>
                     {
-                        if (responseTime != "UNK")
+                        if (responseTime != "-1")
                         {
                             int ms;
                             int.TryParse(responseTime, out ms);
@@ -249,7 +247,7 @@ namespace SteamRouteTool
 
                         SafeInvoke(() =>
                         {
-                            if (responseTime != "BLK")
+                            if (responseTime != "-1")
                             {
                                 int ms;
                                 int.TryParse(responseTime, out ms);
@@ -284,13 +282,13 @@ namespace SteamRouteTool
                         return reply.RoundtripTime.ToString();
                     }
 
-                    return "BLK";
+                    return "-1";
                 }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine("PingHost: " + ex);
-                return "BLK";
+                return "-1";
             }
         }
 
@@ -443,7 +441,7 @@ namespace SteamRouteTool
                             string responseTime = PingHost(currentRoute.ranges.Keys.ElementAt(i));
                             SafeInvoke(() =>
                             {
-                                if (responseTime != "UNK")
+                                if (responseTime != "-1")
                                 {
                                     int ms;
                                     int.TryParse(responseTime, out ms);
