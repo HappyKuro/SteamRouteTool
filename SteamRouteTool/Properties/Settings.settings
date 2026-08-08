@@ -1,7 +1,11 @@
-﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
+<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SteamRouteTool.Properties" GeneratedClassName="Settings">
   <Profiles>
     <Profile Name="(Default)" />
   </Profiles>
-  <Settings />
+  <Settings>
+    <Setting Name="LastAppId" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">440</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>
